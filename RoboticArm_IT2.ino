@@ -184,6 +184,7 @@ void MoveNewDegrees(double shoulderDegrees, double elbowDegrees, double wristDeg
 
   JointDelays *delays = SetJointDelays(shoulderSteps, elbowSteps, wristSteps, wristRotateSteps, rotateSteps);
 
+  /*
   Serial.println(shoulderDegrees);
   Serial.println(currentAngles.shoulder);
   Serial.println(targetShoulder);
@@ -214,7 +215,7 @@ void MoveNewDegrees(double shoulderDegrees, double elbowDegrees, double wristDeg
   Serial.println(wristRotateSteps);
   Serial.print("    R: ");
   Serial.println(rotateSteps);
-
+  */
 
   SetFunctionPointers();
 
@@ -226,7 +227,6 @@ void MoveNewDegrees(double shoulderDegrees, double elbowDegrees, double wristDeg
   long currentWristSteps = 0;
   long currentWristRotateSteps = 0;
   long currentRotateSteps = 0;
-  Serial.println("Running");
   bool didAct = false;
   for (int x = 0; x < delays->main; x++)
   {
@@ -309,6 +309,12 @@ void loop ()
   if (btnVal == HIGH) {
     if (runOnce == true) {
       //PrintStoredDegrees();
+      AutoHome();
+        
+      for (int x = 118; x < 155; x++)
+        MoveToPoint(0, x, 75, theta3);
+
+      AutoHome();
       
       //MoveToPoint(0, 62, 70, theta3);
       //MoveToPoint(0, 154, 90, theta3);
@@ -316,8 +322,7 @@ void loop ()
       //MoveToPoint(0, 62, 70, theta3);
 
       //MoveToPoint(0, 90, 54, theta3);
-      MoveToPoint(0, 90, 39, theta3);
-      delay(2000);
+      //MoveToPoint(0, 90, 39, theta3);
       
       //MoveToPoint(0, 0, 331, 90);
       //AutoHome();
