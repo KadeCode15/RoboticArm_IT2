@@ -40,6 +40,7 @@ void setup() {
 
   pinMode(START_BTN_PIN  , INPUT);
   pinMode(ZERO_BTN_PIN  , INPUT);
+  pinMode(LOST_POWER_PIN  , INPUT);
 
   digitalWrite(X_ENABLE_PIN    , LOW);
   digitalWrite(Y_ENABLE_PIN    , LOW);
@@ -130,6 +131,9 @@ JointDelays *SetJointDelays(long shoulderSteps, long elbowSteps, long wristSteps
 
 void MoveNewDegrees(double shoulderDegrees, double elbowDegrees, double wristDegrees, double wristRotateDegrees, double rotateDegrees)
 {
+  if (g_doStopArm != NO_PROBLEM)
+    return;
+    
   if (isnan(rotateDegrees)) 
     rotateDegrees = 0;
   if (isnan(wristRotateDegrees)) 
@@ -230,10 +234,10 @@ void MoveNewDegrees(double shoulderDegrees, double elbowDegrees, double wristDeg
   bool didAct = false;
   for (int x = 0; x < delays->main; x++)
   {
-    doStopArm = CheckIfProblemExists();
-    if (doStopArm) {
+    g_doStopArm = CheckIfProblemExists();
+    if (g_doStopArm != NO_PROBLEM)
       break;
-    }
+ 
     else {
       if ((delays->shoulder != 0) & ((x % (long)delays->shoulder) == 0) & (currentShoulderSteps < shoulderSteps))
       {
@@ -311,9 +315,11 @@ void loop ()
       //PrintStoredDegrees();
       AutoHome();
         
-      for (int x = 118; x < 155; x++)
-        MoveToPoint(0, x, 75, theta3);
+      //for (int x = 118; x < 155; x++)
+      //  MoveToPoint(0, x, 75, theta3);
 
+
+      MoveToPoint(0, 130, 75, theta3);
       AutoHome();
       
       //MoveToPoint(0, 62, 70, theta3);
@@ -327,29 +333,7 @@ void loop ()
       //MoveToPoint(0, 0, 331, 90);
       //AutoHome();
       //MoveToPoint(0, 90, 39, theta3);
-
-      
-      //delay(1000);
-      //MoveToPoint(0, 62, 70, theta3);
-      //MoveToPoint(80, 70, 80, theta3);
-      //MoveToPoint(-80, 73, 78, theta3);
-      //MoveToPoint(0, 154, 90, theta3);
-      //MoveToPoint(0, 62, 70, theta3);
-      //MoveNewDegrees(90, 0, 0, 0, 0);
       runOnce = false;
     }
   }
-
-
-
-
-  //Serial.println("MOVING");
-  //MoveToPoint(0, 85, 80, theta3);
-  //delay(1000);
-  //PrintStoredDegrees();
-  //Serial.println(shoulderDegreesPerStep, 6);
-  //Serial.println(ReadShoulderDegrees(), 6);
-  //int btnVal = digitalRead(START_BTN_PIN);
-  //if (btnVal == HIGH) {
-  //}
 }

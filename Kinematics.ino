@@ -1,4 +1,6 @@
 void AutoHome() {
+  if (g_doStopArm != NO_PROBLEM)
+    return;
   MoveToPoint(0, 0, (length1 + length2 + length3), 90);
 }
 /*
@@ -7,9 +9,11 @@ void AutoHome() {
 
 void MoveToPoint(double x, double y, double z, double theta3)
 {
+  if (g_doStopArm != NO_PROBLEM)
+    return;
   digitalWrite(DID_WRITE_STATE_LED_PIN, LOW);
   if (x == 0 && y == 0 && z == (length1 + length2 + length3) && theta3 == 90) {
-    return MoveNewDegrees(90, 0, 0, 0, 0);
+    MoveNewDegrees(90, 0, 0, 0, 0);
   }
   Vector vec;
   vec.x = x;
@@ -20,7 +24,6 @@ void MoveToPoint(double x, double y, double z, double theta3)
   currentPoint.z = z;
 
   VectorAngles angles = FindAngles(vec, theta3);
-  //Print("ANGLES[%f, %f, %f, %f, %f]\n", angles.shoulder, angles.elbow, 180 - angles.wrist, angles.wristRotate, angles.rotate);
 
   MoveNewDegrees(angles.shoulder, angles.elbow, (180 - angles.wrist), currentAngles.wristRotate, angles.rotate);
 }

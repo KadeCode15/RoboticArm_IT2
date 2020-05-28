@@ -7,6 +7,10 @@
 #define WristMaxAngle 112
 #define WristMinAngle -112
 
+/*          FAIL STATES     */
+#define NO_PROBLEM   0
+#define LOST_POWER   1
+
 
 const long length1 = 115.5;
 const long length2 = 141.5;

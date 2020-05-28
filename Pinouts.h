@@ -36,3 +36,5 @@
 #define DID_WRITE_STATE_LED_PIN 32
 #define START_BTN_PIN      16
 #define ZERO_BTN_PIN      17
+
+#define LOST_POWER_PIN     47

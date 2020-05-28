@@ -1,5 +1,7 @@
-bool CheckIfProblemExists() {
-  return false;
+int CheckIfProblemExists() {
+  if (digitalRead(LOST_POWER_PIN) == HIGH)
+    return LOST_POWER;
+  return NO_PROBLEM;
 }
 void ShoulderHIGH()
 {
